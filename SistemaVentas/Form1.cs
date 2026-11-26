@@ -138,5 +138,47 @@ namespace SistemaVentas
             txtCantidad.Clear();
             textBox1.Focus();
         }
+
+        private void dgvProductos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btnAjustar_Click(object sender, EventArgs e)
+        {
+            if (dgvProductos.CurrentRow == null || dgvProductos.CurrentRow.IsNewRow)
+            {
+                MessageBox.Show("Selecciona un producto de la tabla");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                MessageBox.Show("Escribe el nombre del producto");
+                return;
+            }
+
+            if (!decimal.TryParse(txtPrecio.Text, out decimal precio))
+            {
+                MessageBox.Show("El precio debe ser un número");
+                return;
+            }
+
+            if (!int.TryParse(txtCantidad.Text, out int cantidad))
+            {
+                MessageBox.Show("La cantidad debe ser un número entero");
+                return;
+            }
+
+            var fila = dgvProductos.CurrentRow;
+            fila.Cells[0].Value = textBox1.Text;
+            fila.Cells[1].Value = precio;
+            fila.Cells[2].Value = cantidad;
+            fila.Cells[3].Value = precio * cantidad;
+
+            textBox1.Clear();
+            txtPrecio.Clear();
+            txtCantidad.Clear();
+        }
     }
 }
